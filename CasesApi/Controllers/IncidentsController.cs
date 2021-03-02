@@ -1,4 +1,5 @@
-﻿using CasesApi.Services;
+﻿using CasesApi.Models;
+using CasesApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -43,6 +44,14 @@ namespace CasesApi.Controllers
             }
 
             return Ok(incident);
+        }
+
+        public async Task<IActionResult> CreateIncidentAsync(Incident incident)
+        {
+            // if (Model.State is valid)
+            await _incidentService.PostIncidentAsync(incident);
+
+            return CreatedAtAction(nameof(GetIncidentByNameAsync), new { name = incident.Name }, incident);
         }
     }
 }
