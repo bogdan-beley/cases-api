@@ -17,5 +17,10 @@ namespace CasesApi.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Incident> PostIncidentAsync(Incident incident)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

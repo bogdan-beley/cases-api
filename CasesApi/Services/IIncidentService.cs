@@ -10,5 +10,6 @@ namespace CasesApi.Services
     {
         Task<IEnumerable<Incident>> GetIncidentsAsync();
         Task<Incident> GetIncidentByNameAsync(string name);
+        Task<Incident> PostIncidentAsync(Incident incident);
     }
 }
