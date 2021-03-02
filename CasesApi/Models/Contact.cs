@@ -10,7 +10,7 @@ namespace CasesApi.Models
 
         [EmailAddress]
         [Required(ErrorMessage ="'Email' is required")]
-        public string Email { get; set; } // TODO: UNIQUE
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "'FirstName' is required")]
         public string FirstName { get; set; }

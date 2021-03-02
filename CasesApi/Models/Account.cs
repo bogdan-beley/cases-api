@@ -9,7 +9,7 @@ namespace CasesApi.Models
         [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; } // TODO: UNIQUE
+        public string Name { get; set; }
 
         [ForeignKey("FK_Accounts_Incidents_IncidentName")]
         public string IncidentName { get; set; }
