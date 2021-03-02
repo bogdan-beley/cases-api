@@ -1,3 +1,4 @@
+using CasesApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,8 @@ namespace CasesApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CasesApi", Version = "v1" });
             });
+
+            services.AddScoped<IIncidentService, IncidentService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
