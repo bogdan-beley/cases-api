@@ -37,7 +37,7 @@ namespace CasesApi.Controllers
 
             if (incident == null)
             {
-                return NotFound($"Sorry. No cases were found for the specified name: {name}. ");
+                return NotFound($"Sorry. No incident found for the specified name: {name}. ");
             }
 
             return Ok(incident);

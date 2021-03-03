@@ -39,7 +39,7 @@ namespace CasesApi.Controllers
 
             if (contact == null)
             {
-                return NotFound($"Sorry. No contacts were found for the specified id: {id}. ");
+                return NotFound($"Sorry. No contact found for the specified id: {id}. ");
             }
 
             return Ok(contact);
