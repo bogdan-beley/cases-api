@@ -56,9 +56,9 @@ namespace CasesApi.Controllers
             await _accountRepo.PostAccountAsync(accountModel);
             await _accountRepo.SaveChangesAsync();
 
-            var contactReadDto = _mapper.Map<AccountReadDto>(accountModel);
+            var accountReadDto = _mapper.Map<AccountReadDto>(accountModel);
 
-            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { contactReadDto.Id }, contactReadDto);
+            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { accountReadDto.Id }, accountReadDto);
         }
     }
 }
