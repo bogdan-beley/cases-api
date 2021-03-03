@@ -10,6 +10,6 @@ namespace CasesApi.Data
 
         Task<IEnumerable<Contact>> GetAllContactsAsync();
         Task<Contact> GetContactByIdAsync(int id);
-        void PostContactAsync(Contact incident);
+        Task<bool> PostContactAsync(Contact incident);
     }
 }
