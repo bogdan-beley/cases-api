@@ -8,6 +8,8 @@ namespace CasesApi.Data
 {
     public interface IAccountRepo
     {
+        Task<bool> SaveChangesAsync();
+
         Task<IEnumerable<Account>> GetAllAccountsAsync();
         Task<Account> GetAccountByIdAsync(int id);
         Task<Account> PostAccountAsync(Account account);

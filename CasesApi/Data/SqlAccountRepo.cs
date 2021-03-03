@@ -28,5 +28,10 @@ namespace CasesApi.Data
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
+        }
     }
 }
