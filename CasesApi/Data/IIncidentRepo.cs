@@ -10,6 +10,6 @@ namespace CasesApi.Data
 
         Task<IEnumerable<Incident>> GetAllIncidentsAsync();
         Task<Incident> GetIncidentByNameAsync(string name);
-        Task<Incident> PostIncidentAsync(Incident incident);
+        Task<bool> PostIncidentAsync(Incident incident);
     }
 }

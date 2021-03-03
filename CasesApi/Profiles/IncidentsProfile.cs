@@ -9,6 +9,7 @@ namespace CasesApi.Profiles
         public IncidentsProfile()
         {
             CreateMap<Incident, IncidentReadDto>();
+            CreateMap<IncidentCreateDto, Incident>();
         }
     }
 }

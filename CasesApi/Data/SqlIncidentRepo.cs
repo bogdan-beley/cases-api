@@ -26,7 +26,7 @@ namespace CasesApi.Data
             return await _context.Incidents.ToListAsync();
         }
 
-        public async Task<Incident> PostIncidentAsync(Incident incident)
+        public async Task<bool> PostIncidentAsync(Incident incident)
         {
             throw new NotImplementedException();
         }
