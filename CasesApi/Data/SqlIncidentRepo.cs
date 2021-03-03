@@ -13,7 +13,7 @@ namespace CasesApi.Data
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Incident>> GetIncidentsAsync()
+        public async Task<IEnumerable<Incident>> GetAllIncidentsAsync()
         {
             throw new NotImplementedException();
         }
