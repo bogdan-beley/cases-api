@@ -32,6 +32,7 @@ namespace CasesApi
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IIncidentRepo, SqlIncidentRepo>();
+            services.AddScoped<IContactRepo, SqlContactRepo>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
