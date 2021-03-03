@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace CasesApi
 {
@@ -30,6 +31,8 @@ namespace CasesApi
 
             services.AddDbContext<CasesContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IIncidentRepo, SqlIncidentRepo>();
             services.AddScoped<IAccountRepo, SqlAccountRepo>();

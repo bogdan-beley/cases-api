@@ -1,6 +1,10 @@
-﻿using CasesApi.Data;
+﻿using AutoMapper;
+using CasesApi.Data;
+using CasesApi.Dtos;
 using CasesApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,14 +15,16 @@ namespace CasesApi.Controllers
     public class IncidentsController : ControllerBase
     {
         private readonly IIncidentRepo _incidentRepo;
+        private readonly IMapper _mapper;
 
-        public IncidentsController(IIncidentRepo incidentRepo)
+        public IncidentsController(IIncidentRepo incidentRepo, IMapper mapper)
         {
             _incidentRepo = incidentRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllIncidentsAsync()
+        public async Task<ActionResult<IEnumerable<IncidentReadDto>>> GetAllIncidentsAsync()
         {
             var incidents = await _incidentRepo.GetAllIncidentsAsync();
 
@@ -27,11 +33,11 @@ namespace CasesApi.Controllers
                 return NotFound("Sorry, the list of incidents is empty.");
             }
 
-            return Ok(incidents);
+            return Ok(_mapper.Map<IEnumerable<IncidentReadDto>>(incidents));
         }
 
         [HttpGet("{name}")]
-        public async Task<IActionResult> GetIncidentByNameAsync(string name)
+        public async Task<ActionResult<IncidentReadDto>> GetIncidentByNameAsync(string name)
         {
             var incident = await _incidentRepo.GetIncidentByNameAsync(name);
 
@@ -40,7 +46,7 @@ namespace CasesApi.Controllers
                 return NotFound($"Sorry. No incident found for the specified name: {name}. ");
             }
 
-            return Ok(incident);
+            return Ok(_mapper.Map<IncidentReadDto>(incident));
         }
 
         [HttpPost]
