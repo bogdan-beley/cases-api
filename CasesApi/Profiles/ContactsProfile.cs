@@ -4,9 +4,9 @@ using CasesApi.Models;
 
 namespace CasesApi.Profiles
 {
-    public class ContactsProfiler : Profile
+    public class ContactsProfile : Profile
     {
-        public ContactsProfiler()
+        public ContactsProfile()
         {
             CreateMap<Contact, ContactReadDto>();
         }
