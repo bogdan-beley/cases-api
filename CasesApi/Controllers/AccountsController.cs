@@ -35,7 +35,7 @@ namespace CasesApi.Controllers
             return Ok(_mapper.Map<IEnumerable<AccountReadDto>>(accounts));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetAccountByIdAsync")]
         public async Task<ActionResult<AccountReadDto>> GetAccountByIdAsync(int id)
         {
             var account = await _accountRepo.GetAccountByIdAsync(id);
@@ -49,12 +49,16 @@ namespace CasesApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIncidentAsync(Account account)
+        public async Task<ActionResult<AccountCreateDto>> CreateAccountAsync(AccountCreateDto accountCreateDto)
         {
-            // if (Model.State is valid)
-            await _accountRepo.PostAccountAsync(account);
+            var accountModel = _mapper.Map<Account>(accountCreateDto);
 
-            return CreatedAtAction(nameof(GetAccountByIdAsync), new { name = account.Id }, account);
+            await _accountRepo.PostAccountAsync(accountModel);
+            await _accountRepo.SaveChangesAsync();
+
+            var accountReadDto = _mapper.Map<AccountReadDto>(accountModel);
+
+            return CreatedAtRoute(nameof(GetAccountByIdAsync), new { accountReadDto.Id }, accountReadDto);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace CasesApi.Profiles
         public AccountsProfile()
         {
             CreateMap<Account, AccountReadDto>();
+            CreateMap<AccountCreateDto, Account>();
         }
     }
 }

@@ -24,9 +24,31 @@ namespace CasesApi.Data
             return await _context.Accounts.ToListAsync();
         }
 
-        public async Task<Account> PostAccountAsync(Account account)
+        public async Task<bool> PostAccountAsync(Account account)
         {
-            throw new NotImplementedException();
+            if (account == null)
+                throw new ArgumentNullException(nameof(account));
+
+            bool nameNotUnique = await _context.Accounts.AnyAsync(a => a.Name == account.Name);
+
+            if (nameNotUnique)
+                throw new ArgumentException("'Name' must be unique");
+
+            var incident = await _context.Incidents.FindAsync(account.IncidentName);
+
+            if (incident == null)
+                throw new ArgumentException($"The specified incident '{account.IncidentName}' is not found in the database.");
+
+            account.Incident = incident;
+
+            await _context.Accounts.AddAsync(account);
+
+            return true;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
         }
     }
 }

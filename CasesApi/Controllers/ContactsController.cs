@@ -36,7 +36,7 @@ namespace CasesApi.Controllers
             return Ok(_mapper.Map<IEnumerable<ContactReadDto>>(contacts));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetContactByIdAsync")]
         public async Task<ActionResult<IEnumerable<ContactReadDto>>> GetContactByIdAsync(int id)
         {
             var contact = await _contactRepo.GetContactByIdAsync(id);
@@ -50,12 +50,16 @@ namespace CasesApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIncidentAsync(Contact contact)
+        public async Task<ActionResult<ContactCreateDto>> CreateContactAsync(ContactCreateDto contactCreateDto)
         {
-            // if (Model.State is valid)
-            await _contactRepo.PostContactAsync(contact);
+            var contactModel = _mapper.Map<Contact>(contactCreateDto);
 
-            return CreatedAtAction(nameof(GetContactByIdAsync), new { name = contact.Id }, contact);
+            await _contactRepo.PostContactAsync(contactModel);
+            await _contactRepo.SaveChangesAsync();
+
+            var contactReadDto = _mapper.Map<ContactReadDto>(contactModel);
+
+            return CreatedAtRoute(nameof(GetContactByIdAsync), new { contactReadDto.Id }, contactReadDto);
         }
     }
 }

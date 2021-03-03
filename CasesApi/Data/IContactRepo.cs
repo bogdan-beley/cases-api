@@ -6,8 +6,10 @@ namespace CasesApi.Data
 {
     public interface IContactRepo
     {
+        Task<bool> SaveChangesAsync();
+
         Task<IEnumerable<Contact>> GetAllContactsAsync();
         Task<Contact> GetContactByIdAsync(int id);
-        Task<Contact> PostContactAsync(Contact incident);
+        Task<bool> PostContactAsync(Contact incident);
     }
 }

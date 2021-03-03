@@ -6,6 +6,8 @@ namespace CasesApi.Data
 {
     public interface IIncidentRepo
     {
+        Task<bool> SaveChangesAsync();
+
         Task<IEnumerable<Incident>> GetAllIncidentsAsync();
         Task<Incident> GetIncidentByNameAsync(string name);
         Task<Incident> PostIncidentAsync(Incident incident);

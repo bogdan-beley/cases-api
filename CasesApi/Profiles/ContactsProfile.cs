@@ -9,6 +9,7 @@ namespace CasesApi.Profiles
         public ContactsProfile()
         {
             CreateMap<Contact, ContactReadDto>();
+            CreateMap<ContactCreateDto, Contact>();
         }
     }
 }
