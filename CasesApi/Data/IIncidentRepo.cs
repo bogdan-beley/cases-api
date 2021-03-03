@@ -1,12 +1,11 @@
 ﻿using CasesApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasesApi.Services
+namespace CasesApi.Data
 {
-    public interface IIncidentService
+    public interface IIncidentRepo
     {
         Task<IEnumerable<Incident>> GetIncidentsAsync();
         Task<Incident> GetIncidentByNameAsync(string name);

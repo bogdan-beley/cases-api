@@ -32,7 +32,7 @@ namespace CasesApi
             services.AddDbContext<CasesContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IIncidentService, IncidentService>();
+            services.AddScoped<IIncidentService, SqlIncidentRepo>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

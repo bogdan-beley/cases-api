@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasesApi.Services
+namespace CasesApi.Data
 {
-    public class IncidentService : IIncidentService
+    public class SqlIncidentRepo : IIncidentRepo
     {
         public async Task<Incident> GetIncidentByNameAsync(string name)
         {
