@@ -25,9 +25,24 @@ namespace CasesApi.Data
             return await _context.Contacts.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<Contact> PostContactAsync(Contact incident)
+        public async void PostContactAsync(Contact contact)
         {
-            throw new NotImplementedException();
+            if (contact == null)
+                throw new ArgumentNullException(nameof(contact));
+
+            var existingContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == contact.Email);
+
+            if (existingContact != null)
+            {
+                existingContact.FirstName = contact.FirstName;
+                existingContact.LastName = contact.LastName;
+                existingContact.AccountId = contact.AccountId;
+                existingContact.Account = existingContact.Account;
+            }
+            else
+            {
+                await _context.Contacts.AddAsync(contact);
+            }
         }
 
         public async Task<bool> SaveChangesAsync()

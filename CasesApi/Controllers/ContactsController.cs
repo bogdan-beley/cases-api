@@ -53,7 +53,7 @@ namespace CasesApi.Controllers
         public async Task<IActionResult> CreateIncidentAsync(Contact contact)
         {
             // if (Model.State is valid)
-            await _contactRepo.PostContactAsync(contact);
+            _contactRepo.PostContactAsync(contact);
 
             return CreatedAtAction(nameof(GetContactByIdAsync), new { name = contact.Id }, contact);
         }
