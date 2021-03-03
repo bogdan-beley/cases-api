@@ -20,7 +20,7 @@ namespace CasesApi.Data
             return await _context.Contacts.ToListAsync();
         }
 
-        public async Task<Contact> GetContactByNameAsync(int id)
+        public async Task<Contact> GetContactByIdAsync(int id)
         {
             return await _context.Contacts.FirstOrDefaultAsync(c => c.Id == id);
         }

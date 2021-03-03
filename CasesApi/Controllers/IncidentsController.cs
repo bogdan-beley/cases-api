@@ -22,7 +22,7 @@ namespace CasesApi.Controllers
         {
             var incidents = await _incidentRepo.GetAllIncidentsAsync();
 
-            if (incidents.Count() < 1)
+            if (!incidents.Any())
             {
                 return NotFound("Sorry, the list of incidents is empty.");
             }
