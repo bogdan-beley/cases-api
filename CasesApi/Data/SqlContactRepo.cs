@@ -30,30 +30,24 @@ namespace CasesApi.Data
             if (contact == null)
                 throw new ArgumentNullException(nameof(contact));
 
-            var existingContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == contact.Email);
-            var account = await _context.Accounts.FindAsync(contact.AccountId);
+            bool emailNotUnique = await _context.Contacts.AnyAsync(c => c.Email == contact.Email);
 
-            if (existingContact != null)
+            if (emailNotUnique)
+                throw new ArgumentException("'Email' must be unique");
+            
+            if (contact.AccountId != null)
             {
-                existingContact.FirstName = contact.FirstName;
-                existingContact.LastName = contact.LastName;
-                existingContact.AccountId = contact.AccountId;
-                existingContact.Account = account;
+                var account = await _context.Accounts.FindAsync(contact.AccountId);
 
-                if (existingContact.AccountId == null)
-                {
-                    existingContact.AccountId = contact.AccountId;
-                    existingContact.Account = account;
-                }
-                return false;
-            }
-            else
-            {
+                if (account == null)
+                    throw new ArgumentException($"The specified account id '{contact.AccountId}' is not found in the database.");
+
                 contact.Account = account;
-                await _context.Contacts.AddAsync(contact);
-
-                return true;
             }
+            
+            await _context.Contacts.AddAsync(contact);
+
+            return true;
         }
 
         public async Task<bool> SaveChangesAsync()

@@ -50,19 +50,16 @@ namespace CasesApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ContactCreateDto>> CreateIncidentAsync(ContactCreateDto contactCreateDto)
+        public async Task<ActionResult<ContactCreateDto>> CreateContactAsync(ContactCreateDto contactCreateDto)
         {
             var contactModel = _mapper.Map<Contact>(contactCreateDto);
-            
-            bool contactIsCreated = await _contactRepo.PostContactAsync(contactModel);
+
+            await _contactRepo.PostContactAsync(contactModel);
             await _contactRepo.SaveChangesAsync();
 
             var contactReadDto = _mapper.Map<ContactReadDto>(contactModel);
 
-            if (contactIsCreated)
-                return CreatedAtRoute(nameof(GetContactByIdAsync), new { contactReadDto.Id }, contactReadDto);
-            else
-                return Ok(contactReadDto);
+            return CreatedAtRoute(nameof(GetContactByIdAsync), new { contactReadDto.Id }, contactReadDto);
         }
     }
 }
