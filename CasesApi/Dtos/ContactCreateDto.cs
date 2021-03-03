@@ -1,15 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CasesApi.Models
+namespace CasesApi.Dtos
 {
-    public class Contact
+    public class ContactCreateDto
     {
-        [Key]
-        public int Id { get; set; }
-
         [EmailAddress]
-        [Required(ErrorMessage ="'Email' is required")]
+        [Required(ErrorMessage = "'Email' is required")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "'FirstName' is required")]
@@ -20,7 +17,5 @@ namespace CasesApi.Models
 
         [ForeignKey("FK_Contacts_Accounts_AccountId")]
         public int? AccountId { get; set; }
-
-        public Account Account { get; set; }
     }
 }

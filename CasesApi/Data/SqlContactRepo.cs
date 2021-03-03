@@ -36,8 +36,12 @@ namespace CasesApi.Data
             {
                 existingContact.FirstName = contact.FirstName;
                 existingContact.LastName = contact.LastName;
-                existingContact.AccountId = contact.AccountId;
-                existingContact.Account = existingContact.Account;
+
+                if (existingContact.AccountId == null)
+                {
+                    existingContact.AccountId = contact.AccountId;
+                    existingContact.Account = existingContact.Account;
+                } 
             }
             else
             {
