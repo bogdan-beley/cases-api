@@ -60,7 +60,7 @@ namespace CasesApi.Controllers
             var contactReadDto = _mapper.Map<ContactReadDto>(contactModel);
 
             if (contactIsCreated)
-                return CreatedAtRoute(nameof(GetContactByIdAsync), new { Id = contactReadDto.Id }, contactReadDto);
+                return CreatedAtRoute(nameof(GetContactByIdAsync), new { contactReadDto.Id }, contactReadDto);
             else
                 return Ok(contactReadDto);
         }
