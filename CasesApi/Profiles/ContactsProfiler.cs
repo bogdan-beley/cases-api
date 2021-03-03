@@ -4,11 +4,11 @@ using CasesApi.Models;
 
 namespace CasesApi.Profiles
 {
-    public class IncidentsProfile : Profile
+    public class ContactsProfiler : Profile
     {
-        public IncidentsProfile()
+        public ContactsProfiler()
         {
-            CreateMap<Incident, IncidentReadDto>();
+            CreateMap<Contact, ContactReadDto>();
         }
     }
 }
