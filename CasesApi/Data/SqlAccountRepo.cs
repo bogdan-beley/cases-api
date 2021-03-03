@@ -24,9 +24,17 @@ namespace CasesApi.Data
             return await _context.Accounts.ToListAsync();
         }
 
-        public async Task<Account> PostAccountAsync(Account account)
+        public async Task<bool> PostAccountAsync(Account account)
         {
-            throw new NotImplementedException();
+            if (account == null)
+                throw new ArgumentNullException(nameof(account));
+
+            var incident = await _context.Incidents.FindAsync(account.IncidentName);
+            account.Incident = incident;
+
+            await _context.Accounts.AddAsync(account);
+
+            return true;
         }
 
         public async Task<bool> SaveChangesAsync()

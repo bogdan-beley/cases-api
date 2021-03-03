@@ -12,6 +12,6 @@ namespace CasesApi.Data
 
         Task<IEnumerable<Account>> GetAllAccountsAsync();
         Task<Account> GetAccountByIdAsync(int id);
-        Task<Account> PostAccountAsync(Account account);
+        Task<bool> PostAccountAsync(Account account);
     }
 }
