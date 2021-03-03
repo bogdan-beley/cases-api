@@ -1,4 +1,5 @@
 ﻿using CasesApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,21 @@ namespace CasesApi.Data
 {
     public class SqlIncidentRepo : IIncidentRepo
     {
+        private readonly CasesContext _context;
+
+        public SqlIncidentRepo(CasesContext context)
+        {
+            _context = context;
+        }
+
         public async Task<Incident> GetIncidentByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await _context.Incidents.FirstOrDefaultAsync(x => x.Name == name);
         }
 
         public async Task<IEnumerable<Incident>> GetAllIncidentsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Incidents.ToListAsync();
         }
 
         public async Task<Incident> PostIncidentAsync(Incident incident)

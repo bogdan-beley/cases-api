@@ -7,7 +7,7 @@ namespace CasesApi.Data
     {
         public CasesContext(DbContextOptions<CasesContext> options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Incident> Incidents { get; set; }

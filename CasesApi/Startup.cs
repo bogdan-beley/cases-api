@@ -1,5 +1,4 @@
 using CasesApi.Data;
-using CasesApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +31,7 @@ namespace CasesApi
             services.AddDbContext<CasesContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IIncidentService, SqlIncidentRepo>();
+            services.AddScoped<IIncidentRepo, SqlIncidentRepo>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
