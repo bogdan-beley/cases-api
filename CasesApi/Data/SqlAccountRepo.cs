@@ -29,7 +29,16 @@ namespace CasesApi.Data
             if (account == null)
                 throw new ArgumentNullException(nameof(account));
 
+            bool nameNotUnique = await _context.Accounts.AnyAsync(a => a.Name == account.Name);
+
+            if (nameNotUnique)
+                throw new ArgumentException("'Name' must be unique");
+
             var incident = await _context.Incidents.FindAsync(account.IncidentName);
+
+            if (incident == null)
+                throw new ArgumentException($"The specified incident '{account.IncidentName}' is not found in the database.");
+
             account.Incident = incident;
 
             await _context.Accounts.AddAsync(account);
