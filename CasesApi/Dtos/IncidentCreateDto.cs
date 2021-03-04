@@ -12,6 +12,9 @@ namespace CasesApi.Dtos
         [Required(ErrorMessage = "'Description' is required")]
         public string Description { get; set; }
 
-        public ICollection<Account> Accounts { get; set; }
+        [Required(ErrorMessage = "'AccountId' is required")]
+        public int AccountId { get; set; }
+
+        public ICollection<AccountCreateDto> Accounts { get; set; }
     }
 }

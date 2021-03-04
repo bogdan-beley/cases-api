@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CasesApi.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CasesApi.Dtos
@@ -14,8 +15,5 @@ namespace CasesApi.Dtos
 
         [Required(ErrorMessage = "'LastName' is required")]
         public string LastName { get; set; }
-
-        [ForeignKey("FK_Contacts_Accounts_AccountId")]
-        public int? AccountId { get; set; }
     }
 }
