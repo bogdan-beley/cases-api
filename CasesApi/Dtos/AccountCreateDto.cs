@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CasesApi.Dtos
@@ -8,7 +9,6 @@ namespace CasesApi.Dtos
         [Required(ErrorMessage = "'Name' is required")]
         public string Name { get; set; }
 
-        [ForeignKey("FK_Accounts_Incidents_IncidentName")]
-        public string IncidentName { get; set; }
+        public ICollection<ContactCreateDto> Contacts { get; set; }
     }
 }

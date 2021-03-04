@@ -15,6 +15,7 @@ namespace CasesApi.Data
         {
             _context = context;
         }
+
         public async Task<IEnumerable<Contact>> GetAllContactsAsync()
         {
             return await _context.Contacts.ToListAsync();
@@ -34,17 +35,7 @@ namespace CasesApi.Data
 
             if (emailNotUnique)
                 throw new ArgumentException("'Email' must be unique");
-            
-            if (contact.AccountId != null)
-            {
-                var account = await _context.Accounts.FindAsync(contact.AccountId);
 
-                if (account == null)
-                    throw new ArgumentException($"The specified account id '{contact.AccountId}' is not found in the database.");
-
-                contact.Account = account;
-            }
-            
             await _context.Contacts.AddAsync(contact);
 
             return true;

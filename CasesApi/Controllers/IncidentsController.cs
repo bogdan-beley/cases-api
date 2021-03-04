@@ -36,26 +36,31 @@ namespace CasesApi.Controllers
             return Ok(_mapper.Map<IEnumerable<IncidentReadDto>>(incidents));
         }
 
-        [HttpGet("{name}")]
+        [HttpGet("{name}", Name = "GetIncidentByNameAsync")]
         public async Task<ActionResult<IncidentReadDto>> GetIncidentByNameAsync(string name)
         {
             var incident = await _incidentRepo.GetIncidentByNameAsync(name);
 
             if (incident == null)
             {
-                return NotFound($"Sorry. No incident found for the specified name: {name}. ");
+                return NotFound($"Sorry. No incident found for the specified name: {name}.");
             }
 
             return Ok(_mapper.Map<IncidentReadDto>(incident));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIncidentAsync(Incident incident)
+        public async Task<ActionResult<IncidentCreateDto>> CreateIncidentAsync(IncidentCreateDto incidentCreateDto)
         {
-            // if (Model.State is valid)
-            await _incidentRepo.PostIncidentAsync(incident);
+            
+            var incidentModel = _mapper.Map<Incident>(incidentCreateDto);
 
-            return CreatedAtAction(nameof(GetIncidentByNameAsync), new { name = incident.Name }, incident);
+            await _incidentRepo.PostIncidentAsync(incidentModel);
+            await _incidentRepo.SaveChangesAsync();
+
+            var incidentReadDto = _mapper.Map<IncidentReadDto>(incidentModel);
+
+            return CreatedAtRoute(nameof(GetIncidentByNameAsync), new { incidentReadDto.Name }, incidentReadDto);
         }
     }
 }

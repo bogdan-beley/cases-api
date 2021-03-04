@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CasesApi.Data
@@ -34,12 +35,20 @@ namespace CasesApi.Data
             if (nameNotUnique)
                 throw new ArgumentException("'Name' must be unique");
 
-            var incident = await _context.Incidents.FindAsync(account.IncidentName);
+            var contact = account.Contacts.First();
 
-            if (incident == null)
-                throw new ArgumentException($"The specified incident '{account.IncidentName}' is not found in the database.");
+            var existingContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == contact.Email);
 
-            account.Incident = incident;
+            if (existingContact != null)
+            {
+                existingContact.FirstName = contact.FirstName;
+                existingContact.LastName = contact.LastName;
+
+                if (existingContact.Account == null)
+                    existingContact.AccountId = await _context.Accounts.MaxAsync(a => a.Id) + 1;
+
+                account.Contacts.Clear();
+            }
 
             await _context.Accounts.AddAsync(account);
 
