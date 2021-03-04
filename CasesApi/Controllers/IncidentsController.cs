@@ -43,7 +43,7 @@ namespace CasesApi.Controllers
 
             if (incident == null)
             {
-                return NotFound($"Sorry. No incident found for the specified name: {name}. ");
+                return NotFound($"Sorry. No incident found for the specified name: {name}.");
             }
 
             return Ok(_mapper.Map<IncidentReadDto>(incident));
@@ -52,6 +52,7 @@ namespace CasesApi.Controllers
         [HttpPost]
         public async Task<ActionResult<IncidentCreateDto>> CreateIncidentAsync(IncidentCreateDto incidentCreateDto)
         {
+            
             var incidentModel = _mapper.Map<Incident>(incidentCreateDto);
 
             await _incidentRepo.PostIncidentAsync(incidentModel);

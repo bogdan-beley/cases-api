@@ -15,6 +15,7 @@ namespace CasesApi.Data
         {
             _context = context;
         }
+
         public async Task<IEnumerable<Contact>> GetAllContactsAsync()
         {
             return await _context.Contacts.ToListAsync();

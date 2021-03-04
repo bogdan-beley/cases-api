@@ -28,7 +28,36 @@ namespace CasesApi.Data
 
         public async Task<bool> PostIncidentAsync(Incident incident)
         {
-            throw new NotImplementedException();
+            if (incident == null)
+                throw new ArgumentNullException(nameof(incident));
+
+            var account = incident.Accounts.First();
+            var contact = incident.Accounts.First().Contacts.First();
+            var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.Name == account.Name);
+            
+            if (existingAccount == null)
+                throw new ArgumentException($"The specified account '{account.Name}' is not found in the database.");
+
+            var existingContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == contact.Email);
+
+            if (existingContact != null)
+            {
+                existingContact.FirstName = contact.FirstName;
+                existingContact.LastName = contact.LastName;
+
+                if (existingContact.AccountId == null)
+                    existingContact.AccountId = existingAccount.Id;
+            }
+            else
+            {
+                contact.AccountId = existingAccount.Id;
+                await _context.Contacts.AddAsync(contact);
+            }
+            
+            incident.Accounts.Clear();
+            await _context.Incidents.AddAsync(incident);
+
+            return true;
         }
 
         public async Task<bool> SaveChangesAsync()
