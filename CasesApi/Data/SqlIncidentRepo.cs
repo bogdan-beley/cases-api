@@ -28,6 +28,9 @@ namespace CasesApi.Data
 
         public async Task<bool> PostIncidentAsync(Incident incident)
         {
+            if (incident == null)
+                throw new ArgumentNullException(nameof(incident));
+
             // Get all the specified accounts if they already exist in the database
             var existingAccounts = await _context.Accounts
                 .Where(a => incident.Accounts.Select(x => x.Name).Contains(a.Name)).ToListAsync();
