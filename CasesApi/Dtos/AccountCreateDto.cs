@@ -9,6 +9,7 @@ namespace CasesApi.Dtos
         [Required(ErrorMessage = "'Name' is required")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "'Contact' is required")]
         public ICollection<ContactCreateDto> Contacts { get; set; }
     }
 }
