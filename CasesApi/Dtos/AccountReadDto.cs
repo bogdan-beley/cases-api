@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CasesApi.Dtos
+﻿namespace CasesApi.Dtos
 {
     public class AccountReadDto
     {
