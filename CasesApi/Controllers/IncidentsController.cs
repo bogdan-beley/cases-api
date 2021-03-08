@@ -51,7 +51,6 @@ namespace CasesApi.Controllers
         [HttpPost]
         public async Task<ActionResult<IncidentCreateDto>> CreateIncidentAsync(IncidentCreateDto incidentCreateDto)
         {
-            
             var incidentModel = _mapper.Map<Incident>(incidentCreateDto);
 
             await _incidentRepo.PostIncidentAsync(incidentModel);
