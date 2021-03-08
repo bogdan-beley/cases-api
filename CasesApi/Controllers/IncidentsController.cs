@@ -3,7 +3,6 @@ using CasesApi.Data;
 using CasesApi.Dtos;
 using CasesApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +51,6 @@ namespace CasesApi.Controllers
         [HttpPost]
         public async Task<ActionResult<IncidentCreateDto>> CreateIncidentAsync(IncidentCreateDto incidentCreateDto)
         {
-            
             var incidentModel = _mapper.Map<Incident>(incidentCreateDto);
 
             await _incidentRepo.PostIncidentAsync(incidentModel);

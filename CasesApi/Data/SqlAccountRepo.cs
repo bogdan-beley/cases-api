@@ -31,24 +31,13 @@ namespace CasesApi.Data
                 throw new ArgumentNullException(nameof(account));
 
             bool nameNotUnique = await _context.Accounts.AnyAsync(a => a.Name == account.Name);
+            bool contactExists = account.Contacts.Any(x => _context.Contacts.Any(y => y.Email == x.Email));
 
             if (nameNotUnique)
                 throw new ArgumentException("'Name' must be unique");
 
-            var contact = account.Contacts.First();
-
-            var existingContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == contact.Email);
-
-            if (existingContact != null)
-            {
-                existingContact.FirstName = contact.FirstName;
-                existingContact.LastName = contact.LastName;
-
-                if (existingContact.Account == null)
-                    existingContact.AccountId = await _context.Accounts.MaxAsync(a => a.Id) + 1;
-
-                account.Contacts.Clear();
-            }
+            if (contactExists)
+                throw new ArgumentException("'Email' already exists in the database");
 
             await _context.Accounts.AddAsync(account);
 

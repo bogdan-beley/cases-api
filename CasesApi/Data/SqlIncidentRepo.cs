@@ -1,4 +1,4 @@
-﻿using CasesApi.Models;
+using CasesApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,43 +28,44 @@ namespace CasesApi.Data
 
         public async Task<bool> PostIncidentAsync(Incident incident)
         {
-            // check if incident isn`t null
             if (incident == null)
                 throw new ArgumentNullException(nameof(incident));
 
-            // get account model from incident model
-            var account = incident.Accounts.First();
-            // get contact model from incident model
-            var contact = incident.Accounts.First().Contacts.First();
-            // check if account with specified name exists in database
-            var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a => a.Name == account.Name);
-            
-            // if account with specified name does not exist throw exception
-            if (existingAccount == null)
-                throw new ArgumentException($"The specified account '{account.Name}' is not found in the database.");
+            // Get all the specified accounts if they already exist in the database
+            var existingAccounts = await _context.Accounts
+                .Where(a => incident.Accounts.Select(x => x.Name).Contains(a.Name)).ToListAsync();
 
-            // check if contact with specified email exists in database
-            var existingContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == contact.Email);
+            // Throw an exception if any of the specified accounts are not in the database
+            if (incident.Accounts.Count != existingAccounts.Count)
+                throw new ArgumentException("Can`t find specified account(s) in the database");
 
-            // if contact exists update first and last name
-            if (existingContact != null)
+            // Add or update contacts and link them to existing Account
+            foreach (var account in incident.Accounts)
             {
-                existingContact.FirstName = contact.FirstName;
-                existingContact.LastName = contact.LastName;
+                // Check if the specified contact already exists in the database
+                foreach (var contact in account.Contacts)
+                {
+                    var existingContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == contact.Email);
+                    // Update the contact if exists
+                    if (existingContact != null)
+                    {
+                        existingContact.FirstName = contact.FirstName;
+                        existingContact.LastName = contact.LastName;
+                        existingContact.AccountId = existingAccounts.First(e => e.Name == account.Name).Id;
+                    }
+                    // Add a new contact if not exists
+                    else
+                    {
+                        contact.AccountId = existingAccounts.First(e => e.Name == account.Name).Id;
+                        await _context.Contacts.AddAsync(contact);
+                    }
+                }
+            }
 
-                // link contact record to account if not
-                if (existingContact.AccountId == null)
-                    existingContact.AccountId = existingAccount.Id;
-            }
-            // if contact does not exist in database link to account and add to database
-            else
-            {
-                contact.AccountId = existingAccount.Id;
-                await _context.Contacts.AddAsync(contact);
-            }
-            
-            // clear incident accounts before adding to context (because we account is already in database)
-            incident.Accounts.Clear();
+            // Link existing accounts to Incident model
+            incident.Accounts = existingAccounts;
+
+            // Add incident to database context
             await _context.Incidents.AddAsync(incident);
 
             return true;

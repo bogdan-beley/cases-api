@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CasesApi.Dtos
 {
@@ -9,6 +8,7 @@ namespace CasesApi.Dtos
         [Required(ErrorMessage = "'Name' is required")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "'Contact' is required")]
         public ICollection<ContactCreateDto> Contacts { get; set; }
     }
 }
